@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>البحث بالرقم القومي</title>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 400px;
+      margin: 50px auto;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 15px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🔍 البحث بالرقم القومي</h2>
+    <input type="text" id="nid" placeholder="أدخل الرقم القومي" />
+    <button onclick="searchNID()">بحث</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    let data = [];
+
+    fetch('data.json')
+      .then(response => response.json())
+      .then(json => data = json);
+
+    function searchNID() {
+      const nid = document.getElementById("nid").value.trim();
+      const resultDiv = document.getElementById("result");
+      const person = data.find(p => String(p.nid).trim() === nid);
+
+      if (person) {
+        resultDiv.innerHTML = `
+          <p><strong>الاسم:</strong> ${person.colC}</p>
+          <p><strong>الوظيفة:</strong> ${person.colD}</p>
+          <p><strong>الرقم القومي:</strong> ${person.nid}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = "<p style='color:red;'>❌ الرقم غير موجود</p>";
+      }
+    }
+  </script>
+</body>
+</html>
